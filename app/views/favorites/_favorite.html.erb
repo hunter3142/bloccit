@@ -1,9 +1,26 @@
-<% if favorite = current_user.favorite_for(post) %>\
-  <%= link_to [post, favorite], class: 'btn btn-danger', method: :delete do %>
-    <i class="glyphicon glyphicon-star-empty"> </i>&nbsp; Unfavorite
-  <% end %>
-<% else %>
-  <%= link_to [post, Favorite.new], class: 'btn btn-primary', method: :post do %>
-    <i class="glyphicon glyphicon-star"> </i>&nbsp; Favorite
-  <% end %>
+<%= content_tag :div, class: 'media', id: "favorite-#{favorite.id}" do %>
+  <div class= "media">
+    <div class= "media-body row">
+   	  <div class="col-md-3">
+   	  	<%= link_to favorite.post.title, topic_post_path(favorite.post.topic, favorite.post) %>
+   	  	<small>
+          <p> <%= favorite.post.body %></p>
+        </small>
+      </div>
+      <small class="col-md-1">
+        <% avatar_url = favorite.post.user.avatar_url(46) %>
+        <% if avatar_url %>
+          <div class="media-left">
+            <%= image_tag avatar_url, class: 'media-object' %>
+          </div>
+        <% end %>
+      </small>
+      <small class="col-md-3">
+        <%= favorite.post.comments.count %> Comments
+        <br/>
+        <%= pluralize(favorite.post.up_votes, 'up vote') %>,
+        <%= pluralize(favorite.post.down_votes, 'down vote') %>
+      </small>
+    </div>
+  </div>
 <% end %>

@@ -6,7 +6,7 @@ RSpec.describe CommentsController, type: :controller do
   let(:my_user) { create(:user) }
   let(:other_user) { create(:user) }
   let(:my_post) { create(:post, topic: my_topic, user: my_user) }
- 	let(:my_comment) { Comment.create!(body: 'Comment Body', post: my_post, user: my_user) }
+ 	let(:my_comment) { create(:comment, post: my_post, user: my_user) }
 
  	context "guest" do
    	describe "POST create" do
@@ -18,6 +18,7 @@ RSpec.describe CommentsController, type: :controller do
 
    	describe "DELETE destroy" do
      		it "redirects the user to the sign in view" do
+          # binding.pry
        		delete :destroy, post_id: my_post.id, id: my_comment.id
        		expect(response).to redirect_to(new_session_path)
      		end
